@@ -2,7 +2,7 @@
 import { useTranslation } from 'react-i18next'
 import { Fragment, useMemo } from 'react'
 import { useContext } from 'use-context-selector'
-import { Menu, Transition } from '@headlessui/react'
+import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 import s from './index.module.css'
 import { useProviderContext } from '@/context/provider-context'
@@ -86,20 +86,20 @@ const Operation = ({
   }
 
   return (
-    <Menu as="div" className="relative w-full h-full">
+    <Menu as="div" className="relative h-full w-full">
       {
         ({ open }) => (
           <>
-            <Menu.Button className={cn(
+            <MenuButton className={cn(
               `
-                  group flex items-center justify-between w-full h-full
-                  hover:bg-gray-100 cursor-pointer ${open && 'bg-gray-100'}
-                  text-[13px] text-gray-700 px-3
+                  group flex h-full w-full cursor-pointer items-center
+                  justify-between hover:bg-gray-100 ${open && 'bg-gray-100'}
+                  px-3 text-[13px] text-gray-700
                 `,
             )}>
               {RoleMap[member.role] || RoleMap.normal}
-              <ChevronDownIcon className={`w-4 h-4 group-hover:block ${open ? 'block' : 'hidden'}`} />
-            </Menu.Button>
+              <ChevronDownIcon className={`h-4 w-4 group-hover:block ${open ? 'block' : 'hidden'}`} />
+            </MenuButton>
             <Transition
               as={Fragment}
               enter="transition ease-out duration-100"
@@ -109,11 +109,11 @@ const Operation = ({
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items
+              <MenuItems
                 className={cn(
                   `
-                      absolute right-0 top-[52px] z-10 bg-white border-[0.5px] border-gray-200
-                      divide-y divide-gray-100 origin-top-right rounded-lg
+                      absolute right-0 top-[52px] z-10 origin-top-right divide-y divide-gray-100
+                      rounded-lg border-[0.5px] border-gray-200 bg-white
                     `,
                   s.popup,
                 )}
@@ -121,7 +121,7 @@ const Operation = ({
                 <div className="px-1 py-1">
                   {
                     roleList.map(role => (
-                      <Menu.Item key={role}>
+                      <MenuItem key={role}>
                         <div className={itemClassName} onClick={() => handleUpdateMemberRole(role)}>
                           {
                             role === member.role
@@ -133,11 +133,11 @@ const Operation = ({
                             <div className={itemDescClassName}>{t(`common.members.${toHump(role)}Tip`)}</div>
                           </div>
                         </div>
-                      </Menu.Item>
+                      </MenuItem>
                     ))
                   }
                 </div>
-                <Menu.Item>
+                <MenuItem>
                   <div className='px-1 py-1'>
                     <div className={itemClassName} onClick={handleDeleteMemberOrCancelInvitation}>
                       <div className={itemIconClassName} />
@@ -147,8 +147,8 @@ const Operation = ({
                       </div>
                     </div>
                   </div>
-                </Menu.Item>
-              </Menu.Items>
+                </MenuItem>
+              </MenuItems>
             </Transition>
           </>
         )

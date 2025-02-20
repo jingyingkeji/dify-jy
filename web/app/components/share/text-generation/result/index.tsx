@@ -80,14 +80,14 @@ const Result: FC<IResultProps> = ({
   }, [controlStopResponding])
 
   const [completionRes, doSetCompletionRes] = useState<any>('')
-  const completionResRef = useRef<any>()
+  const completionResRef = useRef<any>(undefined)
   const setCompletionRes = (res: any) => {
     completionResRef.current = res
     doSetCompletionRes(res)
   }
   const getCompletionRes = () => completionResRef.current
   const [workflowProcessData, doSetWorkflowProcessData] = useState<WorkflowProcess>()
-  const workflowProcessDataRef = useRef<WorkflowProcess>()
+  const workflowProcessDataRef = useRef<WorkflowProcess | undefined>(undefined)
   const setWorkflowProcessData = (data: WorkflowProcess) => {
     workflowProcessDataRef.current = data
     doSetWorkflowProcessData(data)
@@ -402,7 +402,7 @@ const Result: FC<IResultProps> = ({
       {!isCallBatchAPI && !isWorkflow && (
         (isResponding && !completionRes)
           ? (
-            <div className='flex h-full w-full justify-center items-center'>
+            <div className='flex h-full w-full items-center justify-center'>
               <Loading type='area' />
             </div>)
           : (
@@ -418,7 +418,7 @@ const Result: FC<IResultProps> = ({
         !isCallBatchAPI && isWorkflow && (
           (isResponding && !workflowProcessData)
             ? (
-              <div className='flex h-full w-full justify-center items-center'>
+              <div className='flex h-full w-full items-center justify-center'>
                 <Loading type='area' />
               </div>
             )

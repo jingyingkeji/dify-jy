@@ -8,7 +8,7 @@ import {
   RiMoreFill,
   RiStickyNoteAddLine,
 } from '@remixicon/react'
-import { Menu, Transition } from '@headlessui/react'
+import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react'
 import { syncDataSourceNotion, updateDataSourceNotionAction } from '@/service/common'
 import Toast from '@/app/components/base/toast'
 
@@ -54,9 +54,9 @@ export default function Operate({
       {
         ({ open }) => (
           <>
-            <Menu.Button className={`flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 ${open && 'bg-gray-100'}`}>
-              <RiMoreFill className='w-4 h-4' />
-            </Menu.Button>
+            <MenuButton className={`flex h-8 w-8 items-center justify-center rounded-lg hover:bg-gray-100 ${open && 'bg-gray-100'}`}>
+              <RiMoreFill className='h-4 w-4' />
+            </MenuButton>
             <Transition
               as={Fragment}
               enter="transition ease-out duration-100"
@@ -66,15 +66,15 @@ export default function Operate({
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items
+              <MenuItems
                 className="
                   absolute right-0 top-9 w-60 max-w-80
-                  divide-y divide-gray-100 origin-top-right rounded-lg bg-white
+                  origin-top-right divide-y divide-gray-100 rounded-lg bg-white
                   shadow-lg
                 "
               >
                 <div className="px-1 py-1">
-                  <Menu.Item>
+                  <MenuItem>
                     <div
                       className={itemClassName}
                       onClick={onAuthAgain}
@@ -82,28 +82,28 @@ export default function Operate({
                       <RiStickyNoteAddLine className={itemIconClassName} />
                       <div>
                         <div className='leading-5'>{t('common.dataSource.notion.changeAuthorizedPages')}</div>
-                        <div className='leading-5 text-xs text-gray-500'>
+                        <div className='text-xs leading-5 text-gray-500'>
                           {payload.total} {t('common.dataSource.notion.pagesAuthorized')}
                         </div>
                       </div>
                     </div>
-                  </Menu.Item>
-                  <Menu.Item>
+                  </MenuItem>
+                  <MenuItem>
                     <div className={itemClassName} onClick={handleSync}>
                       <RiLoopLeftLine className={itemIconClassName} />
                       <div className='leading-5'>{t('common.dataSource.notion.sync')}</div>
                     </div>
-                  </Menu.Item>
+                  </MenuItem>
                 </div>
-                <Menu.Item>
+                <MenuItem>
                   <div className='p-1'>
                     <div className={itemClassName} onClick={handleRemove}>
                       <RiDeleteBinLine className={itemIconClassName} />
                       <div className='leading-5'>{t('common.dataSource.notion.remove')}</div>
                     </div>
                   </div>
-                </Menu.Item>
-              </Menu.Items>
+                </MenuItem>
+              </MenuItems>
             </Transition>
           </>
         )

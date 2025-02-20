@@ -6,7 +6,7 @@ import cn from '@/utils/classnames'
 interface Props {
   className?: string
   title: string
-  children: JSX.Element
+  children: React.JSX.Element
 }
 
 const Field: FC<Props> = ({

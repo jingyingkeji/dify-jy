@@ -65,7 +65,7 @@ const ChatWithHistory: FC<ChatWithHistoryProps> = ({
   }
 
   return (
-    <div className={`h-full flex bg-white ${className} ${isMobile && 'flex-col'}`}>
+    <div className={`flex h-full bg-white ${className} ${isMobile && 'flex-col'}`}>
       {
         !isMobile && (
           <Sidebar />
@@ -79,7 +79,7 @@ const ChatWithHistory: FC<ChatWithHistoryProps> = ({
       <div className={`grow overflow-hidden ${showConfigPanelBeforeChat && !appPrevChatTree.length && 'flex items-center justify-center'}`}>
         {
           showConfigPanelBeforeChat && !appChatListDataLoading && !appPrevChatTree.length && (
-            <div className={`flex w-full items-center justify-center h-full ${isMobile && 'px-4'}`}>
+            <div className={`flex h-full w-full items-center justify-center ${isMobile && 'px-4'}`}>
               <ConfigPanel />
             </div>
           )

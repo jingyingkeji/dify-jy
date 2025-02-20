@@ -5,14 +5,15 @@ import TracingPanel from './tracing/panel'
 import ApikeyInfoPanel from '@/app/components/app/overview/apikey-info-panel'
 
 export type IDevelopProps = {
-  params: { appId: string }
+  params: Promise<{ appId: string }>
 }
 
 const Overview = async ({
-  params: { appId },
+  params,
 }: IDevelopProps) => {
+  const { appId } = await params
   return (
-    <div className="h-full px-4 sm:px-12 py-6 overflow-scroll bg-chatbot-bg">
+    <div className="bg-chatbot-bg h-full overflow-scroll px-4 py-6 sm:px-12">
       <ApikeyInfoPanel />
       <TracingPanel />
       <CardView appId={appId} />
