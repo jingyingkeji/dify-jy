@@ -10,11 +10,12 @@ import {
 import { useCallback, useMemo } from 'react'
 import { type ToolVarInputs, VarType } from '../tool/types'
 import { useCheckInstalled, useFetchPluginsInMarketPlaceByIds } from '@/service/use-plugins'
-import type { Memory, Var } from '../../types'
+import type { Memory, ValueSelector, Var } from '../../types'
 import { VarType as VarKindType } from '../../types'
 import useAvailableVarList from '../_base/hooks/use-available-var-list'
 import produce from 'immer'
 import { FormTypeEnum } from '@/app/components/header/account-setting/model-provider-page/declarations'
+import { checkHasContextBlock } from '@/app/components/base/prompt-editor/constants'
 
 export type StrategyStatus = {
   plugin: {
@@ -194,6 +195,26 @@ const useConfig = (id: string, payload: AgentNodeType) => {
     setInputs(newInputs)
   }, [inputs, setInputs])
   const isChatMode = useIsChatMode()
+
+  const hasSetBlockStatus = (() => {
+    const hasSetContext = allVarStrArr?.some(item => checkHasContextBlock(item))
+    return {
+      context: hasSetContext,
+    }
+  })()
+
+  const shouldShowContextTip = !hasSetBlockStatus.context && inputs.context.enabled
+
+  // context
+  const handleContextVarChange = useCallback((newVar: ValueSelector | string) => {
+    const newInputs = produce(inputs, (draft) => {
+      draft.context = {
+        enabled: !!(newVar && newVar.length > 0),
+        variable_selector: newVar as ValueSelector || [],
+      }
+    })
+    setInputs(newInputs)
+  }, [inputs, setInputs])
   return {
     readOnly,
     inputs,
@@ -223,6 +244,9 @@ const useConfig = (id: string, payload: AgentNodeType) => {
     outputSchema,
     handleMemoryChange,
     isChatMode,
+    shouldShowContextTip,
+    handleContextVarChange,
+    filterVar: filterMemoryPromptVar,
   }
 }
 

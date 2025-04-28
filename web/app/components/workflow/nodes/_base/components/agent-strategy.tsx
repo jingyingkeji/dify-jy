@@ -12,7 +12,7 @@ import Slider from '@/app/components/base/slider'
 import ToolSelector from '@/app/components/plugins/plugin-detail-panel/tool-selector'
 import MultipleToolSelector from '@/app/components/plugins/plugin-detail-panel/multiple-tool-selector'
 import Field from './field'
-import { type ComponentProps, memo } from 'react'
+import { type ComponentProps, type ReactNode, memo } from 'react'
 import { useDefaultModel } from '@/app/components/header/account-setting/model-provider-page/hooks'
 import Editor from './prompt/editor'
 import { useWorkflowStore } from '../../../store'
@@ -40,6 +40,7 @@ export type AgentStrategyProps = {
   nodeOutputVars?: NodeOutPutVar[],
   availableNodes?: Node[],
   nodeId?: string
+  contextRenderField?: () => ReactNode
 }
 
 type CustomSchema<Type, Field = {}> = Omit<CredentialFormSchema, 'type'> & { type: Type } & Field
@@ -50,7 +51,7 @@ type MultipleToolSelectorSchema = CustomSchema<'array[tools]'>
 type CustomField = ToolSelectorSchema | MultipleToolSelectorSchema
 
 export const AgentStrategy = memo((props: AgentStrategyProps) => {
-  const { strategy, onStrategyChange, formSchema, formValue, onFormValueChange, nodeOutputVars, availableNodes, nodeId } = props
+  const { strategy, onStrategyChange, formSchema, formValue, onFormValueChange, nodeOutputVars, availableNodes, nodeId, contextRenderField } = props
   const { t } = useTranslation()
   const { locale } = useContext(I18n)
   const defaultModel = useDefaultModel(ModelTypeEnum.textGeneration)
@@ -98,6 +99,7 @@ export const AgentStrategy = memo((props: AgentStrategyProps) => {
                   completion_params: {},
                 } : undefined
             }
+            isShowContext={def.context?.enabled}
             placeholderClassName='px-2 py-1'
             titleClassName='system-sm-semibold-uppercase text-text-secondary text-[13px]'
             inputClassName='px-2 py-1 bg-components-input-bg-normal focus:bg-components-input-bg-active focus:border-components-input-border-active focus:border rounded-lg'
@@ -197,6 +199,7 @@ export const AgentStrategy = memo((props: AgentStrategyProps) => {
     {
       strategy
         ? <div>
+          {contextRenderField?.()}
           <Form<CustomField>
             formSchemas={[
               ...formSchema,

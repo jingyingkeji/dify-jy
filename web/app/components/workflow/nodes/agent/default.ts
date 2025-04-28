@@ -7,6 +7,10 @@ import { renderI18nObject } from '@/i18n'
 
 const nodeDefault: NodeDefault<AgentNodeType> = {
   defaultValue: {
+    context: {
+      enabled: false,
+      variable_selector: [],
+    },
   },
   getAvailablePrevNodes(isChatMode) {
     return isChatMode

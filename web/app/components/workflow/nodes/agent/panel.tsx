@@ -1,4 +1,4 @@
-import type { FC } from 'react'
+import type { ComponentProps, FC } from 'react'
 import { memo, useMemo } from 'react'
 import type { NodePanelProps } from '../../types'
 import { AgentFeature, type AgentNodeType } from './types'
@@ -18,6 +18,7 @@ import { toType } from '@/app/components/tools/utils/to-form-schema'
 import { useStore } from '../../store'
 import Split from '../_base/components/split'
 import MemoryConfig from '../_base/components/memory-config'
+import VarReferencePicker from '../_base/components/variable/var-reference-picker'
 
 const i18nPrefix = 'workflow.nodes.agent'
 
@@ -53,6 +54,9 @@ const AgentPanel: FC<NodePanelProps<AgentNodeType>> = (props) => {
     varInputs,
     outputSchema,
     handleMemoryChange,
+    shouldShowContextTip,
+    handleContextVarChange,
+    filterVar,
   } = useConfig(props.id, props.data)
   const { t } = useTranslation()
   const nodeInfo = useMemo(() => {
@@ -79,6 +83,29 @@ const AgentPanel: FC<NodePanelProps<AgentNodeType>> = (props) => {
   })()
 
   const resetEditor = useStore(s => s.setControlPromptEditorRerenderKey)
+
+  const contextRenderField: ComponentProps<typeof AgentStrategy>['contextRenderField'] = () => {
+    return (
+      <Field
+        title={t('workflow.nodes.llm.context')}
+        tooltip={t('workflow.nodes.llm.contextTooltip')}
+      >
+        <>
+          <VarReferencePicker
+            readonly={readOnly}
+            nodeId={props.id}
+            isShowNodeName
+            value={inputs.context?.variable_selector || []}
+            onChange={handleContextVarChange}
+            filterVar={filterVar}
+          />
+          {shouldShowContextTip && (
+            <div className='text-xs font-normal leading-[18px] text-[#DC6803]'>{t('workflow.nodes.llm.notSetContextInPromptTip')}</div>
+          )}
+        </>
+      </Field>
+    )
+  }
 
   return <div className='my-2'>
     <Field title={t('workflow.nodes.agent.strategy.label')} className='px-4 py-2' tooltip={t('workflow.nodes.agent.strategy.tooltip')} >
@@ -108,6 +135,7 @@ const AgentPanel: FC<NodePanelProps<AgentNodeType>> = (props) => {
         nodeOutputVars={availableVars}
         availableNodes={availableNodesWithParent}
         nodeId={props.id}
+        contextRenderField={currentStrategy?.features?.includes(AgentFeature.CONTEXT) ? contextRenderField : undefined}
       />
     </Field>
     <div className='px-4 py-2'>

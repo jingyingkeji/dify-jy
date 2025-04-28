@@ -127,6 +127,9 @@ export type CredentialFormSchemaTextInput = CredentialFormSchemaBase & {
   },
   auto_generate?: {
     type: string
+  },
+  context?: {
+    enabled: boolean
   }
 }
 export type CredentialFormSchemaNumberInput = CredentialFormSchemaBase & { min?: number; max?: number; placeholder?: TypeWithI18N }
