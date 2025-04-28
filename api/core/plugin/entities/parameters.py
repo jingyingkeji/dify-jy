@@ -53,6 +53,10 @@ class PluginParameterTemplate(BaseModel):
     enabled: bool = Field(default=False, description="Whether the parameter is jinja enabled")
 
 
+class PluginParameterContext(BaseModel):
+    enabled: bool = Field(default=False, description="Whether the parameter is context enabled")
+
+
 class PluginParameter(BaseModel):
     name: str = Field(..., description="The name of the parameter")
     label: I18nObject = Field(..., description="The label presented to the user")
@@ -60,6 +64,7 @@ class PluginParameter(BaseModel):
     scope: str | None = None
     auto_generate: Optional[PluginParameterAutoGenerate] = None
     template: Optional[PluginParameterTemplate] = None
+    context: Optional[PluginParameterContext] = None
     required: bool = False
     default: Optional[Union[float, int, str]] = None
     min: Optional[Union[float, int]] = None

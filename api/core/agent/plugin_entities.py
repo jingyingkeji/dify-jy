@@ -78,6 +78,7 @@ class AgentFeature(enum.StrEnum):
     """
 
     HISTORY_MESSAGES = "history-messages"
+    CONTEXT = "context"
 
 
 class AgentStrategyEntity(BaseModel):
