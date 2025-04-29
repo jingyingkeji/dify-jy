@@ -46,6 +46,10 @@ server {
         include proxy.conf;
     }
 
+    location /logo {
+      rewrite ^/logo/(.*)$ /dify/logo/$1 break;
+    }
+
     # placeholder for acme challenge location
     ${ACME_CHALLENGE_LOCATION}
 
