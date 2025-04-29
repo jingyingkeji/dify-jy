@@ -107,4 +107,4 @@ export const getVars = (value: string) => {
 
 // Set the value of basePath
 // example: /dify
-export const basePath = ''
+export const basePath = '/dify'
