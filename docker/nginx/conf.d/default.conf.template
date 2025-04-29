@@ -40,6 +40,12 @@ server {
       include proxy.conf;
     }
 
+    location /ollama/ {
+        proxy_ssl_verify off;
+        proxy_pass https://8.130.27.32/ollama/;
+        include proxy.conf;
+    }
+
     # placeholder for acme challenge location
     ${ACME_CHALLENGE_LOCATION}
 
