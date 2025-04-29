@@ -46,6 +46,11 @@ server {
         include proxy.conf;
     }
 
+    location ~ ^/dify/console/api/workspaces/([a-z0-9\-]+)/model-providers$ {
+        rewrite ^/dify/(.*)$ /$1 break;
+        include proxy.conf;
+    }
+
     # placeholder for acme challenge location
     ${ACME_CHALLENGE_LOCATION}
 
