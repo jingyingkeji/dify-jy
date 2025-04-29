@@ -46,11 +46,6 @@ server {
         include proxy.conf;
     }
 
-    location /dify {
-        proxy_pass http://api:5001/dify;
-        include proxy.conf;
-    }
-
     # placeholder for acme challenge location
     ${ACME_CHALLENGE_LOCATION}
 
