@@ -46,8 +46,8 @@ server {
         include proxy.conf;
     }
 
-    location ~ ^/dify/console/api/workspaces/([a-z0-9\-]+)/model-providers$ {
-        rewrite ^/dify/(.*)$ /$1 break;
+    location /dify {
+        proxy_pass http://api:5001/dify;
         include proxy.conf;
     }
 
