@@ -19,6 +19,7 @@ export enum FormTypeEnum {
   toolSelector = 'tool-selector',
   multiToolSelector = 'array[tools]',
   appSelector = 'app-selector',
+  any = 'any',
 }
 
 export type FormOption = {
@@ -126,6 +127,9 @@ export type CredentialFormSchemaTextInput = CredentialFormSchemaBase & {
   },
   auto_generate?: {
     type: string
+  },
+  context?: {
+    enabled: boolean
   }
 }
 export type CredentialFormSchemaNumberInput = CredentialFormSchemaBase & { min?: number; max?: number; placeholder?: TypeWithI18N }

@@ -5,6 +5,7 @@ from pydantic import BaseModel, Field, field_validator
 
 from core.entities.parameter_entities import CommonParameterType
 from core.tools.entities.common_entities import I18nObject
+from core.workflow.nodes.base.entities import NumberType
 
 
 class PluginParameterOption(BaseModel):
@@ -35,6 +36,7 @@ class PluginParameterType(enum.StrEnum):
     APP_SELECTOR = CommonParameterType.APP_SELECTOR.value
     MODEL_SELECTOR = CommonParameterType.MODEL_SELECTOR.value
     TOOLS_SELECTOR = CommonParameterType.TOOLS_SELECTOR.value
+    ANY = CommonParameterType.ANY.value
 
     # deprecated, should not use.
     SYSTEM_FILES = CommonParameterType.SYSTEM_FILES.value
@@ -51,6 +53,10 @@ class PluginParameterTemplate(BaseModel):
     enabled: bool = Field(default=False, description="Whether the parameter is jinja enabled")
 
 
+class PluginParameterContext(BaseModel):
+    enabled: bool = Field(default=False, description="Whether the parameter is context enabled")
+
+
 class PluginParameter(BaseModel):
     name: str = Field(..., description="The name of the parameter")
     label: I18nObject = Field(..., description="The label presented to the user")
@@ -58,6 +64,7 @@ class PluginParameter(BaseModel):
     scope: str | None = None
     auto_generate: Optional[PluginParameterAutoGenerate] = None
     template: Optional[PluginParameterTemplate] = None
+    context: Optional[PluginParameterContext] = None
     required: bool = False
     default: Optional[Union[float, int, str]] = None
     min: Optional[Union[float, int]] = None
@@ -133,6 +140,10 @@ def cast_parameter_value(typ: enum.StrEnum, value: Any, /):
             case PluginParameterType.TOOLS_SELECTOR:
                 if value and not isinstance(value, list):
                     raise ValueError("The tools selector must be a list.")
+                return value
+            case PluginParameterType.ANY:
+                if value and not isinstance(value, str | dict | list | NumberType):
+                    raise ValueError("The var selector must be a string, dictionary, list or number.")
                 return value
             case _:
                 return str(value)

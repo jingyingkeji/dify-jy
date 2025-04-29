@@ -1,17 +1,19 @@
 from enum import Enum
-from typing import Any, Literal, Union
+from typing import Any, Literal, Optional, Union
 
 from pydantic import BaseModel
 
 from core.prompt.entities.advanced_prompt_entities import MemoryConfig
 from core.tools.entities.tool_entities import ToolSelector
 from core.workflow.nodes.base.entities import BaseNodeData
+from core.workflow.nodes.llm.entities import ContextConfig
 
 
 class AgentNodeData(BaseNodeData):
     agent_strategy_provider_name: str  # redundancy
     agent_strategy_name: str
     agent_strategy_label: str  # redundancy
+    context: Optional[ContextConfig] = None
     memory: MemoryConfig | None = None
 
     class AgentInput(BaseModel):

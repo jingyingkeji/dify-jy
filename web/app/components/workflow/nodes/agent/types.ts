@@ -1,4 +1,4 @@
-import type { CommonNodeType, Memory } from '@/app/components/workflow/types'
+import type { CommonNodeType, Memory, ValueSelector } from '@/app/components/workflow/types'
 import type { ToolVarInputs } from '../tool/types'
 
 export type AgentNodeType = CommonNodeType & {
@@ -9,8 +9,13 @@ export type AgentNodeType = CommonNodeType & {
   output_schema: Record<string, any>
   plugin_unique_identifier?: string
   memory?: Memory
+  context: {
+    enabled: boolean
+    variable_selector: ValueSelector
+  }
 }
 
 export enum AgentFeature {
   HISTORY_MESSAGES = 'history-messages',
+  CONTEXT = 'context',
 }
