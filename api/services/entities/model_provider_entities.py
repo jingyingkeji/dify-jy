@@ -21,7 +21,12 @@ from core.model_runtime.entities.provider_entities import (
 from models.provider import ProviderType
 
 from dify_app import DifyApp
+import logging
 APP_ROOT = DifyApp(__name__).config['APPLICATION_ROOT']
+print("--------------------")
+print("app_root", APP_ROOT)
+print("--------------------")
+logging.info(f"app_root {APP_ROOT}")
 
 
 class CustomConfigurationStatus(Enum):
@@ -81,6 +86,7 @@ class ProviderResponse(BaseModel):
         url_prefix = (
             dify_config.CONSOLE_API_URL + APP_ROOT + f"/console/api/workspaces/{self.tenant_id}/model-providers/{self.provider}"
         )
+        logging.info("url_prefix: {url_prefix}")
         if self.icon_small is not None:
             self.icon_small = I18nObject(
                 en_US=f"{url_prefix}/icon_small/en_US", zh_Hans=f"{url_prefix}/icon_small/zh_Hans"
@@ -111,6 +117,7 @@ class ProviderWithModelsResponse(BaseModel):
         url_prefix = (
             dify_config.CONSOLE_API_URL + APP_ROOT + f"/console/api/workspaces/{self.tenant_id}/model-providers/{self.provider}"
         )
+        logging.info("url_prefix: {url_prefix}")
         if self.icon_small is not None:
             self.icon_small = I18nObject(
                 en_US=f"{url_prefix}/icon_small/en_US", zh_Hans=f"{url_prefix}/icon_small/zh_Hans"
@@ -135,6 +142,7 @@ class SimpleProviderEntityResponse(SimpleProviderEntity):
         url_prefix = (
             dify_config.CONSOLE_API_URL + APP_ROOT + f"/console/api/workspaces/{self.tenant_id}/model-providers/{self.provider}"
         )
+        logging.info("url_prefix: {url_prefix}")
         if self.icon_small is not None:
             self.icon_small = I18nObject(
                 en_US=f"{url_prefix}/icon_small/en_US", zh_Hans=f"{url_prefix}/icon_small/zh_Hans"
