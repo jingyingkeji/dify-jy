@@ -20,6 +20,9 @@ from core.model_runtime.entities.provider_entities import (
 )
 from models.provider import ProviderType
 
+from dify_app import DifyApp
+APP_ROOT = DifyApp(__name__).config['APPLICATION_ROOT']
+
 
 class CustomConfigurationStatus(Enum):
     """
@@ -76,7 +79,7 @@ class ProviderResponse(BaseModel):
         super().__init__(**data)
 
         url_prefix = (
-            dify_config.CONSOLE_API_URL + f"/console/api/workspaces/{self.tenant_id}/model-providers/{self.provider}"
+            dify_config.CONSOLE_API_URL + APP_ROOT + f"/console/api/workspaces/{self.tenant_id}/model-providers/{self.provider}"
         )
         if self.icon_small is not None:
             self.icon_small = I18nObject(
@@ -106,7 +109,7 @@ class ProviderWithModelsResponse(BaseModel):
         super().__init__(**data)
 
         url_prefix = (
-            dify_config.CONSOLE_API_URL + f"/console/api/workspaces/{self.tenant_id}/model-providers/{self.provider}"
+            dify_config.CONSOLE_API_URL + APP_ROOT + f"/console/api/workspaces/{self.tenant_id}/model-providers/{self.provider}"
         )
         if self.icon_small is not None:
             self.icon_small = I18nObject(
@@ -130,7 +133,7 @@ class SimpleProviderEntityResponse(SimpleProviderEntity):
         super().__init__(**data)
 
         url_prefix = (
-            dify_config.CONSOLE_API_URL + f"/console/api/workspaces/{self.tenant_id}/model-providers/{self.provider}"
+            dify_config.CONSOLE_API_URL + APP_ROOT + f"/console/api/workspaces/{self.tenant_id}/model-providers/{self.provider}"
         )
         if self.icon_small is not None:
             self.icon_small = I18nObject(
