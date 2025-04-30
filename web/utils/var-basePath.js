@@ -2,5 +2,5 @@
 // same as the one exported from var.ts
 module.exports = {
   basePath: '/dify',
-  assetPrefix: '',
+  assetPrefix: '/dify',
 }
