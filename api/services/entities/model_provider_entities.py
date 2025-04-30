@@ -20,14 +20,6 @@ from core.model_runtime.entities.provider_entities import (
 )
 from models.provider import ProviderType
 
-from configs import dify_config
-import logging
-APP_ROOT = "/dify"
-print("--------------------")
-print("app_root", APP_ROOT)
-print("--------------------")
-logging.info(f"app_root {APP_ROOT}")
-
 
 class CustomConfigurationStatus(Enum):
     """
@@ -84,9 +76,8 @@ class ProviderResponse(BaseModel):
         super().__init__(**data)
 
         url_prefix = (
-            dify_config.CONSOLE_API_URL + APP_ROOT + f"/console/api/workspaces/{self.tenant_id}/model-providers/{self.provider}"
+            dify_config.CONSOLE_API_URL + f"/console/api/workspaces/{self.tenant_id}/model-providers/{self.provider}"
         )
-        logging.info(f"BaseModel BaseModel url_prefix: {url_prefix}")
         if self.icon_small is not None:
             self.icon_small = I18nObject(
                 en_US=f"{url_prefix}/icon_small/en_US", zh_Hans=f"{url_prefix}/icon_small/zh_Hans"
@@ -115,9 +106,8 @@ class ProviderWithModelsResponse(BaseModel):
         super().__init__(**data)
 
         url_prefix = (
-            dify_config.CONSOLE_API_URL + APP_ROOT + f"/console/api/workspaces/{self.tenant_id}/model-providers/{self.provider}"
+            dify_config.CONSOLE_API_URL + f"/console/api/workspaces/{self.tenant_id}/model-providers/{self.provider}"
         )
-        logging.info(f"BaseModel url_prefix: {url_prefix}")
         if self.icon_small is not None:
             self.icon_small = I18nObject(
                 en_US=f"{url_prefix}/icon_small/en_US", zh_Hans=f"{url_prefix}/icon_small/zh_Hans"
@@ -140,9 +130,8 @@ class SimpleProviderEntityResponse(SimpleProviderEntity):
         super().__init__(**data)
 
         url_prefix = (
-            dify_config.CONSOLE_API_URL + APP_ROOT + f"/console/api/workspaces/{self.tenant_id}/model-providers/{self.provider}"
+            dify_config.CONSOLE_API_URL + f"/console/api/workspaces/{self.tenant_id}/model-providers/{self.provider}"
         )
-        logging.info(f"SimpleProviderEntity url_prefix: {url_prefix}")
         if self.icon_small is not None:
             self.icon_small = I18nObject(
                 en_US=f"{url_prefix}/icon_small/en_US", zh_Hans=f"{url_prefix}/icon_small/zh_Hans"
