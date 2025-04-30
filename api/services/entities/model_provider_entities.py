@@ -22,7 +22,7 @@ from models.provider import ProviderType
 
 from configs import dify_config
 import logging
-APP_ROOT = dify_config['APPLICATION_ROOT']
+APP_ROOT = "/dify"
 print("--------------------")
 print("app_root", APP_ROOT)
 print("--------------------")
